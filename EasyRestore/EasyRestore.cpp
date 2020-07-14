@@ -31,9 +31,9 @@ inline void download(const string& version) {
         cout << "Downloading futurerestore... " << endl;
         HRESULT hr = URLDownloadToFile(NULL, url, destination, 0, NULL);
         if (hr != 0) {
-            cout << "Futurerestore download failed! Aborting.." << endl;
+            cerr << "Futurerestore download failed! Aborting.." << endl;
             system("pause");
-            exit(0);
+            exit(ERROR);
         }
     }
     else
@@ -51,9 +51,9 @@ inline void download(const string& version) {
         if (file_exist(ipsw) == true)
             cout << "iOS " << version << " firmware file for iPhone 5s is downloaded, continuing.." << endl;
         else {
-            cout << "Firmware file download failed! Aborting.." << endl;
+            cerr << "Firmware file download failed! Aborting.." << endl;
             system("pause");
-            exit(0);
+            exit(ERROR);
         }
     }
     else
