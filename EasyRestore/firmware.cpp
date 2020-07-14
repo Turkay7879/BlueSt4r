@@ -34,6 +34,86 @@ const string iOS_12_4_5 = "http://updates-http.cdn-apple.com/2020WinterFCS/fullr
 const string iOS_12_4_6 = "http://updates-http.cdn-apple.com/2020WinterFCS/fullrestores/061-73609/7E12EF2A-B70C-4327-9EAC-5C28D62EA6AD/iPhone_4.0_64bit_12.4.6_16G183_Restore.ipsw";
 const string iOS_12_4_7 = "http://updates-http.cdn-apple.com/2020SpringFCS/fullrestores/061-94832/B6D93224-1059-4DF0-9438-78CD3BED57FE/iPhone_4.0_64bit_12.4.7_16G192_Restore.ipsw";
 
+bool file_exist(const string& file) {
+	struct stat buffer;
+	return (stat(file.c_str(), &buffer) == 0);
+}
+
+void version_control(const string& version) {
+	if (version == "10.2" || version == "10.2.1" || version == "10.3" ||
+		version == "10.3.1" || version == "10.3.2" || version == "10.3.3") {
+		cout << "Since you're restoring to 10.2 - 10.3.3, some additional files are needed." << endl;
+		ostream flush();
+
+		const string buildmanifest_link = "https://gitlab.com/devluke/stablea7/raw/master/A7_10.3.3_OTA_Manifests.zip";
+		wstring download_buildmanifest = wstring(buildmanifest_link.begin(), buildmanifest_link.end());
+		LPCWSTR url = download_buildmanifest.c_str();
+
+		string destination = "C:\\Users\\Ev\\Desktop\\buildmanifest_zip.zip";
+		wstring location = wstring(destination.begin(), destination.end());
+		LPCWSTR download_location = location.c_str();
+
+		HRESULT hr = URLDownloadToFile(NULL, url, download_location, 0, NULL);
+		if (file_exist("C:\\Users\\Ev\\Desktop\\buildmanifest_zip.zip") == false) {
+			cerr << "Could not download buildmanifest file required for restoring" << endl;
+			system("pause");
+			exit(ERROR);
+		}
+		else {
+			ofstream temp("C:\\Users\\Ev\\Desktop\\extract_plist.bat");
+			temp << "mkdir C:\\Users\\Ev\\Desktop\\files\\" << endl;
+			temp << "cd C:\\Program Files\\7-Zip" << "\n7z e C:\\Users\\Ev\\Desktop\\buildmanifest_zip.zip -oC:\\Users\\Ev\\Desktop\\files\\" << endl;
+			temp << "cd C:\\Users\\Ev\\Desktop\\files\\" << endl;
+			temp << "move BuildManifest_iPhone6,2_1033_OTA.plist C:\\Users\\Ev\\Desktop\\buildmanifest.plist" << endl;
+			temp << "cd C:\\Users\\Ev\\Desktop\\" << endl;
+			temp << "rd /S /Q files\\" << endl;
+			temp << "del buildmanifest_zip.zip" << endl;
+			temp.close();
+			ostream flush();
+
+			ShellExecuteA(
+				0,
+				"open",
+				"C:\\Users\\Ev\\Desktop\\extract_plist.bat",
+				NULL,
+				NULL,
+				SW_HIDE);
+
+			string* file = new string("C:\\Users\\Ev\\Desktop\\extract_plist.bat");
+			remove(file->c_str());
+			delete file;
+		}
+		ostream flush();
+
+		// Probably wrong approach, user might not choose 10.3.3 to extract BB 7.60.00 and SEP that's compatible
+		// It'll also probably not the best approach to download the whole 10.3.3 IPSW just for these
+		// Will check this out and try to find a solution
+		ofstream extract_bb_sep("C:\\Users\\Ev\\Desktop\\grab_sep_bb.bat");
+		extract_bb_sep << "cd C:\\Users\\Ev\\Desktop\\" << endl;
+		extract_bb_sep << "mkdir temp" << endl;
+		extract_bb_sep << "cd C:\\Program Files\\7-Zip" << "\n7z e " << "C:\\Users\\Ev\\Desktop\\ipsw.ipsw ";
+		extract_bb_sep << "-oC:\\Users\\Ev\\Desktop\\temp\\" << endl;
+		extract_bb_sep << "cd C:\\Users\\Ev\\Desktop\\temp\\" << endl;
+		extract_bb_sep << "move Mav7Mav8-7.60.00.Release.bbfw C:\\Users\\Ev\\Desktop\\baseband.bbfw" << endl;
+		extract_bb_sep << "move sep-firmware.n53.RELEASE.im4p C:\\Users\\Ev\\Desktop\\sep.im4p" << endl;
+		extract_bb_sep << "rd /S /Q C:\\Users\\Ev\\Desktop\\temp" << endl;
+		extract_bb_sep.close();
+		ostream flush();
+
+		ShellExecuteA(
+			0,
+			"open",
+			"C:\\Users\\Ev\\Desktop\\grab_sep_bb.bat",
+			NULL,
+			NULL,
+			SW_HIDE);
+
+		string* file2 = new string("C:\\Users\\Ev\\Desktop\\grab_sep_bb.bat");
+		remove(file2->c_str());
+		delete file2;
+	}
+}
+
 string get_firmware_link(const string& version) {
 	if (version == "10.2")				return iOS_10_2;
 	else if (version == "10.2.1")			return iOS_10_2_1;
@@ -72,4 +152,3 @@ string get_firmware_link(const string& version) {
 	}
 	else						return "Unsupported version requested!";
 }
-
