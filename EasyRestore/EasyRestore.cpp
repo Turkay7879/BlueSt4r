@@ -46,16 +46,15 @@ inline void download(const string& version) {
         wstring dir_temp = wstring(ipsw.begin(), ipsw.end());
         LPCWSTR destination = dir_temp.c_str();
 
-        cout << "Downloading iOS 11.3.1 for iPhone 5s... " << endl;
+        cout << "Downloading iOS " << version << " for iPhone 5s... " << endl;
         HRESULT hr = URLDownloadToFile(NULL, url, destination, 0, NULL);
         if (file_exist(ipsw) == true)
-            cout << "iOS 11.3.1 firmware file for iPhone 5s is downloaded, continuing.." << endl;
+            cout << "iOS " << version << " firmware file for iPhone 5s is downloaded, continuing.." << endl;
         else {
             cout << "Firmware file download failed! Aborting.." << endl;
             system("pause");
             exit(0);
         }
-
     }
     else
         cout << "Firmware file already exists on desktop, continuing.." << endl;
