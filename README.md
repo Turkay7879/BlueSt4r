@@ -1,4 +1,4 @@
-# BlueSt4r repository, project "EasyRestore", made by "wooozie69"
+# BlueSt4r repository, project "EasyRestore"
 
 EasyRestore is a entry-level project to test my C++ skills by making a console program.
 The purpose of this console program is to make futurerestore process easier. 
@@ -19,3 +19,5 @@ Known issues:
 Dependencies:
   1. 7-Zip program should be installed before using this (Extracting purposes).
   2. Final program file is not included, so C++ and header files has to be compiled in an IDE (VS Community 2019 is used by myself)
+  
+Made by wooozie69  
