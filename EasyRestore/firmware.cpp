@@ -36,38 +36,38 @@ const string iOS_12_4_7 = "http://updates-http.cdn-apple.com/2020SpringFCS/fullr
 
 string get_firmware_link(const string& version) {
 	if (version == "10.2")				return iOS_10_2;
-	else if (version == "10.2.1")		return iOS_10_2_1;
+	else if (version == "10.2.1")			return iOS_10_2_1;
 	else if (version == "10.3")			return iOS_10_3;
-	else if (version == "10.3.1")		return iOS_10_3_1;
-	else if (version == "10.3.2")		return iOS_10_3_2;
-	else if (version == "10.3.3")		return iOS_10_3_3;
+	else if (version == "10.3.1")			return iOS_10_3_1;
+	else if (version == "10.3.2")			return iOS_10_3_2;
+	else if (version == "10.3.3")			return iOS_10_3_3;
 	else if (version == "11.3")			return iOS_11_3;
-	else if (version == "11.3.1")		return iOS_11_3_1;
+	else if (version == "11.3.1")			return iOS_11_3_1;
 	else if (version == "11.4")			return iOS_11_4;
-	else if (version == "11.4.1")		return iOS_11_4_1;
+	else if (version == "11.4.1")			return iOS_11_4_1;
 	else if (version == "12.0")			return iOS_12_0;
-	else if (version == "12.0.1")		return iOS_12_0_1;
+	else if (version == "12.0.1")			return iOS_12_0_1;
 	else if (version == "12.1")			return iOS_12_1;
-	else if (version == "12.1.1")		return iOS_12_1_1;
-	else if (version == "12.1.3")		return iOS_12_1_3;
-	else if (version == "12.1.4")		return iOS_12_1_4;
+	else if (version == "12.1.1")			return iOS_12_1_1;
+	else if (version == "12.1.3")			return iOS_12_1_3;
+	else if (version == "12.1.4")			return iOS_12_1_4;
 	else if (version == "12.2")			return iOS_12_2;
 	else if (version == "12.3")			return iOS_12_3;
-	else if (version == "12.3.1")		return iOS_12_3_1;
+	else if (version == "12.3.1")			return iOS_12_3_1;
 	else if (version == "12.4")			return iOS_12_4;
-	else if (version == "12.4.1")		return iOS_12_4_1;
-	else if (version == "12.4.2")		return iOS_12_4_2;
-	else if (version == "12.4.3")		return iOS_12_4_3;
-	else if (version == "12.4.4")		return iOS_12_4_4;
-	else if (version == "12.4.5")		return iOS_12_4_5;
-	else if (version == "12.4.6")		return iOS_12_4_6;
-	else if (version == "12.4.7")		return iOS_12_4_7;
+	else if (version == "12.4.1")			return iOS_12_4_1;
+	else if (version == "12.4.2")			return iOS_12_4_2;
+	else if (version == "12.4.3")			return iOS_12_4_3;
+	else if (version == "12.4.4")			return iOS_12_4_4;
+	else if (version == "12.4.5")			return iOS_12_4_5;
+	else if (version == "12.4.6")			return iOS_12_4_6;
+	else if (version == "12.4.7")			return iOS_12_4_7;
 	else if (version == "12.1.2") {
 		cout << "Which build number do you have SHSH for? 16C101 or 16C104: ";
 		string build_num;
 		getline(cin, build_num);
 		if (build_num == "16C101")		return iOS_12_1_2_101;
-		else if (build_num == "16C104")	return iOS_12_1_2_104;
+		else if (build_num == "16C104")		return iOS_12_1_2_104;
 		else							return "Invalid build number!";
 	}
 	else								return "Unsupported version requested!";
