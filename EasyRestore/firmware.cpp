@@ -68,8 +68,8 @@ string get_firmware_link(const string& version) {
 		getline(cin, build_num);
 		if (build_num == "16C101")		return iOS_12_1_2_101;
 		else if (build_num == "16C104")		return iOS_12_1_2_104;
-		else							return "Invalid build number!";
+		else					return "Invalid build number!";
 	}
-	else								return "Unsupported version requested!";
+	else						return "Unsupported version requested!";
 }
 
