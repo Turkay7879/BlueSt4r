@@ -14,6 +14,5 @@ Current abilities of EasyRestore:
 
 Dependencies:
   1. 7-Zip program should be installed before using this (Extracting purposes).
-  2. Final program file is not included, so C++ and header files has to be compiled in an IDE (VS Community 2019 is used by myself)
   
 Made by wooozie69  
