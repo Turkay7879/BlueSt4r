@@ -13,15 +13,14 @@ using namespace std;
 
 const string futurerestore_url = "https://github.com/s0uthwest/futurerestore/releases/download/245/futurerestore_win64_v245.zip";
 const string zip_file = desktop + "\\fr.zip";
-const string futurerestore = desktop + "\\futurerestore.exe";
-const string ipsw = desktop + "\\ipsw.ipsw";
 
-inline void remove_leftover(string file) {
+
+void remove_leftover(string file) {
     if (remove(file.c_str()) == 0) cout << "Leftovers are removed successfully!" << endl;
     else cout << "Deleting leftovers failed! You may need to delete them manually." << endl;
 }
 
-inline void download(const string& version) {
+void download(const string& version) {
     if (file_exist(futurerestore) == false) {
         wstring url_temp = wstring(futurerestore_url.begin(), futurerestore_url.end());
         LPCWSTR url = url_temp.c_str();
@@ -61,23 +60,29 @@ inline void download(const string& version) {
         cout << "Firmware file already exists on desktop, continuing.." << endl;
 }
 
-inline void prep(string _sig_hash, string _fw_file, const string& version) {
+void prep(const string& version) {
+
     ofstream exec(desktop + "\\run.bat");
     exec << "cd C:\\Program Files\\7-Zip" << "\n7z e " << "\"" << zip_file << "\"" << " -o\\" << desktop << "\"";
+    
     if (!(version == "10.2" || version == "10.2.1" || version == "10.3" || version == "10.3.1" || version == "10.3.2" || version == "10.3.3")) {
-        exec << "\ncd "<< desktop << "\nfuturerestore.exe -t " << _sig_hash << " --latest-sep --latest-baseband " << _fw_file << "\npause";
+        exec << "\ncd " << desktop << endl;
+        exec << futurerestore << " -t " << signature_hash << " --latest-sep --latest-baseband " << ipsw << endl;
+        exec << "pause" << endl;
         exec.close();
     }
     else {
-        exec << "\ncd " << desktop << "\nfuturerestore.exe -t " << _sig_hash << " -b baseband.bbfw -p buildmanifest.plist -s sep.im4p -m buildmanifest.plist ";
-        exec << _fw_file << "\npause";
+        exec << "\ncd " << desktop << endl;
+        exec << futurerestore << " -t " << signature_hash << " -b " << bb << " -p " << buildmanifest << " -s " << sep << " -m " << buildmanifest << " " << ipsw << endl;
+        exec << "pause" << endl;
         exec.close();
     }
     ostream flush();
     cout << "Preparation is done!" << endl;
 }
 
-inline void run() {
+void run() {
+
     string run = desktop + "\\run.bat";
     ShellExecuteA(
         0,
@@ -87,6 +92,7 @@ inline void run() {
         NULL,
         SW_SHOW);
     system("pause");
+
     remove_leftover(run);
     remove_leftover(zip_file);
     remove_leftover(futurerestore);
@@ -95,12 +101,12 @@ inline void run() {
 int main()
 {
     string version;
-    cout << "Which version you'd like to restore: ";
+    cout << "Which version you'd like to restore (Enter it like \"10.2\", \"12.1.1\" etc. without quotes): ";
     getline(cin, version);
 
-    prep("blob.shsh2", "ipsw.ipsw", version);
-    download(version);
     version_control(version);
+    prep(version);
+    download(version);
     run();
 
     system("pause");
