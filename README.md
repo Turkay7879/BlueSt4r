@@ -26,7 +26,7 @@ To find out what "futurerestore" is, check out s0uthwest's futurerestore project
 # Notes:
   - EasyRestore uses Desktop as working directory, so while it's running, you might see files (SEP, Baseband, IPSW, futurerestore etc.) that weren't there before. 
   - If you'd like to try yourself, you can always test the code on an IDE (I've used VS Community 2019) and see for yourself. 
-  - SEP and Baseband files are directly downloaded on this (BlueSt4r) repo, and they're originally extracted from iOS 10.3.3 IPSW. Reason for that is that neither extracting them remotely, nor downloading the whole 10.3.3 IPSW were reliable or effective options to do so.
+  - SEP and Baseband files are directly downloaded from this (BlueSt4r) repo, and they're originally extracted from iOS 10.3.3 IPSW. Reason for that is that neither extracting them remotely, nor downloading the whole 10.3.3 IPSW were reliable or effective options to do so.
  
 # Thanks to:
   - s0uthwest
