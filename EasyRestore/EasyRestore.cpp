@@ -4,7 +4,7 @@
 using namespace std;
 
 void download(const string& version) {
-    if (file_exist(futurerestore) == false) {
+    if (!file_exist(futurerestore)) {
         wstring url_temp = wstring(futurerestore_link.begin(), futurerestore_link.end());
         LPCWSTR url = url_temp.c_str();
 
@@ -22,7 +22,7 @@ void download(const string& version) {
     }
     else cout << "Futurerestore already exists on desktop, continuing.." << endl;
 
-    if (file_exist(ipsw) == false) {
+    if (!file_exist(ipsw)) {
         string download_link = get_firmware_link(version);
         wstring url_temp = wstring(download_link.begin(), download_link.end());
         LPCWSTR url = url_temp.c_str();
@@ -42,8 +42,7 @@ void download(const string& version) {
             exit(ERROR);
         }
     }
-    else
-        cout << "Firmware file already exists on desktop, continuing.." << endl;
+    else cout << "Firmware file already exists on desktop, continuing.." << endl;
 }
 
 void prep(const string& version) {
