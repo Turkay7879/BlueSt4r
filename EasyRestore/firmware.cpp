@@ -99,11 +99,13 @@ void version_control(const string& version) {
 		}
 		else cout << "BuildManifest already exists on Desktop, continuing.. " << endl;
 
-		// Problems with downloading SEP (Probably Baseband too). Going to sort it out
 		if (file_exist(desktop + "\\sep.im4p") == false) {
-			LPCWSTR sep_dl = wstring(sep_link.begin(), sep_link.end()).c_str();
+			wstring sep_link_toconvert = wstring(sep_link.begin(), sep_link.end());
+			LPCWSTR sep_dl = sep_link_toconvert.c_str();
+
 			const string sep_file = desktop + "\\sep.im4p";
-			LPCWSTR sep_destination = wstring(sep_file.begin(), sep_file.end()).c_str();
+			wstring sep_destination_toconvert = wstring(sep_file.begin(), sep_file.end());
+			LPCWSTR sep_destination = sep_destination_toconvert.c_str();
 
 			cout << "Downloading SEP.." << endl;
 			HRESULT res_sep = URLDownloadToFile(NULL, sep_dl, sep_destination, 0, NULL);
@@ -116,9 +118,12 @@ void version_control(const string& version) {
 		else cout << "SEP already exists on Desktop, continuing.. " << endl;
 
 		if (file_exist(desktop + "\\baseband.bbfw") == false) {
-			LPCWSTR bb_dl = wstring(bb_link.begin(), bb_link.end()).c_str();
+			wstring bb_link_toconvert = wstring(bb_link.begin(), bb_link.end());
+			LPCWSTR bb_dl = bb_link_toconvert.c_str();
+
 			const string bb_file = desktop + "\\baseband.bbfw";
-			LPCWSTR bb_destination = wstring(bb_file.begin(), bb_file.end()).c_str();
+			wstring bb_destination_toconvert = wstring(bb_file.begin(), bb_file.end());
+			LPCWSTR bb_destination = bb_destination_toconvert.c_str();
 
 			cout << "Downloading Baseband.." << endl;
 			HRESULT res_bb = URLDownloadToFile(NULL, bb_dl, bb_destination, 0, NULL);
