@@ -1,28 +1,11 @@
-﻿#include <iostream>
-#include <string>
-#include <fstream>
-#include <stdio.h>
-#include <urlmon.h>
-#include <shellapi.h>
-#include "firmware.cpp"
+﻿#include "firmware.cpp"
 #include "file_operations.cpp"
-
-#pragma comment(lib, "urlmon.lib")
 
 using namespace std;
 
-const string futurerestore_url = "https://github.com/s0uthwest/futurerestore/releases/download/245/futurerestore_win64_v245.zip";
-const string zip_file = desktop + "\\fr.zip";
-
-
-void remove_leftover(string file) {
-    if (remove(file.c_str()) == 0) cout << "Leftovers are removed successfully!" << endl;
-    else cout << "Deleting leftovers failed! You may need to delete them manually." << endl;
-}
-
 void download(const string& version) {
     if (file_exist(futurerestore) == false) {
-        wstring url_temp = wstring(futurerestore_url.begin(), futurerestore_url.end());
+        wstring url_temp = wstring(futurerestore_link.begin(), futurerestore_link.end());
         LPCWSTR url = url_temp.c_str();
 
         wstring dir_temp = wstring(zip_file.begin(), zip_file.end());
@@ -30,14 +13,15 @@ void download(const string& version) {
 
         cout << "Downloading futurerestore... " << endl;
         HRESULT hr = URLDownloadToFile(NULL, url, destination, 0, NULL);
-        if (hr != 0) {
+        if (!SUCCEEDED(hr)) {
             cerr << "Futurerestore download failed! Aborting.." << endl;
+            check_leftovers();
             system("pause");
             exit(ERROR);
         }
     }
-    else
-        cout << "Futurerestore already exists on desktop, continuing.." << endl;
+    else cout << "Futurerestore already exists on desktop, continuing.." << endl;
+
     if (file_exist(ipsw) == false) {
         string download_link = get_firmware_link(version);
         wstring url_temp = wstring(download_link.begin(), download_link.end());
@@ -48,10 +32,12 @@ void download(const string& version) {
 
         cout << "Downloading iOS " << version << " for iPhone 5s... " << endl;
         HRESULT hr = URLDownloadToFile(NULL, url, destination, 0, NULL);
-        if (file_exist(ipsw) == true)
+        if (SUCCEEDED(hr))
             cout << "iOS " << version << " firmware file for iPhone 5s is downloaded, continuing.." << endl;
         else {
             cerr << "Firmware file download failed! Aborting.." << endl;
+            delete_file(zip_file);
+            check_leftovers();
             system("pause");
             exit(ERROR);
         }
@@ -62,40 +48,39 @@ void download(const string& version) {
 
 void prep(const string& version) {
 
-    ofstream exec(desktop + "\\run.bat");
-    exec << "cd C:\\Program Files\\7-Zip" << "\n7z e " << "\"" << zip_file << "\"" << " -o" << desktop << "\"";
+    ofstream run(run_path);
+    run << "cd C:\\Program Files\\7-Zip" << "\n7z e " << "\"" << zip_file << "\"" << " -o" << desktop << "\"" << endl;
     
     if (!(version == "10.2" || version == "10.2.1" || version == "10.3" || version == "10.3.1" || version == "10.3.2" || version == "10.3.3")) {
-        exec << "\ncd " << desktop << endl;
-        exec << futurerestore << " -t " << signature_hash << " --latest-sep --latest-baseband " << ipsw << endl;
-        exec << "pause" << endl;
-        exec.close();
+        run << futurerestore << " -t " << signature_hash << " --latest-sep --latest-baseband " << ipsw << endl;
+        run << "pause" << endl;
+        run.close();
     }
     else {
-        exec << "\ncd " << desktop << endl;
-        exec << futurerestore << " -t " << signature_hash << " -b " << bb << " -p " << buildmanifest << " -s " << sep << " -m " << buildmanifest << " " << ipsw << endl;
-        exec << "pause" << endl;
-        exec.close();
+        run << futurerestore << " -t " << signature_hash << " -b " << bb << " -p " << buildmanifest << " -s " << sep << " -m " << buildmanifest << " " << ipsw << endl;
+        run << "pause" << endl;
+        run.close();
     }
     ostream flush();
-    cout << "Preparation is done!" << endl;
+
+    if (!file_exist(run_path)) {
+        cerr << "Run command could not be created, aborting.." << endl;
+        check_leftovers();
+        system("pause");
+        exit(ERROR);
+    }
+    else cout << "Preparation is done!" << endl;
 }
 
 void run() {
-
-    string run = desktop + "\\run.bat";
     ShellExecuteA(
         0,
         "open",
-        run.c_str(),
+        run_path.c_str(),
         NULL,
         NULL,
         SW_SHOW);
-    system("pause");
-
-    remove_leftover(run);
-    remove_leftover(zip_file);
-    remove_leftover(futurerestore);
+    check_leftovers();
 }
 
 int main()
