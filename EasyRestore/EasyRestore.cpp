@@ -63,7 +63,7 @@ void download(const string& version) {
 void prep(const string& version) {
 
     ofstream exec(desktop + "\\run.bat");
-    exec << "cd C:\\Program Files\\7-Zip" << "\n7z e " << "\"" << zip_file << "\"" << " -o\\" << desktop << "\"";
+    exec << "cd C:\\Program Files\\7-Zip" << "\n7z e " << "\"" << zip_file << "\"" << " -o" << desktop << "\"";
     
     if (!(version == "10.2" || version == "10.2.1" || version == "10.3" || version == "10.3.1" || version == "10.3.2" || version == "10.3.3")) {
         exec << "\ncd " << desktop << endl;
