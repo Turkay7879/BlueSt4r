@@ -1,6 +1,5 @@
-#include "firmware.h"
 #include <iostream>
-#include <string>
+#include "firmware.h"
 #include "file_operations.h"
 
 using namespace std;
@@ -34,9 +33,11 @@ const string iOS_12_4_4 = "http://updates-http.cdn-apple.com/2019FallFCS/fullres
 const string iOS_12_4_5 = "http://updates-http.cdn-apple.com/2020WinterFCS/fullrestores/061-62196/E2C61737-55E3-45B6-BDCD-AF2968B5EB52/iPhone_4.0_64bit_12.4.5_16G161_Restore.ipsw";
 const string iOS_12_4_6 = "http://updates-http.cdn-apple.com/2020WinterFCS/fullrestores/061-73609/7E12EF2A-B70C-4327-9EAC-5C28D62EA6AD/iPhone_4.0_64bit_12.4.6_16G183_Restore.ipsw";
 const string iOS_12_4_7 = "http://updates-http.cdn-apple.com/2020SpringFCS/fullrestores/061-94832/B6D93224-1059-4DF0-9438-78CD3BED57FE/iPhone_4.0_64bit_12.4.7_16G192_Restore.ipsw";
+const string iOS_12_4_8 = "http://updates-http.cdn-apple.com/2020SummerFCS/fullrestores/001-11128/4CC37BBF-683F-4C8D-9DE4-3DDA67960DD7/iPhone_4.0_64bit_12.4.8_16G201_Restore.ipsw";
 
 const string bb_link = "https://raw.githubusercontent.com/wooozie69/BlueSt4r/master/iOS%2010%20SEP%20%2B%20BB/Mav7Mav8-7.60.00.Release.bbfw";
 const string sep_link = "https://raw.githubusercontent.com/wooozie69/BlueSt4r/master/iOS%2010%20SEP%20%2B%20BB/sep-firmware.n53.RELEASE.im4p";
+const string futurerestore_link = "https://github.com/s0uthwest/futurerestore/releases/download/245/futurerestore_win64_v245.zip";
 
 const string desktop = desktop_file_path();
 
@@ -66,7 +67,7 @@ void version_control(const string& version) {
 
 			cout << "Downloading BuildManifest.. " << endl;
 			HRESULT hr = URLDownloadToFile(NULL, url, download_location, 0, NULL);
-			if (file_exist(desktop + "\\buildmanifest_zip.zip") == false) {
+			if (!SUCCEEDED(hr)) {
 				cerr << "Could not download BuildManifest file required for restore process, aborting.. " << endl;
 				system("pause");
 				exit(ERROR);
@@ -111,6 +112,7 @@ void version_control(const string& version) {
 			HRESULT res_sep = URLDownloadToFile(NULL, sep_dl, sep_destination, 0, NULL);
 			if (file_exist(desktop + "\\sep.im4p") == false) {
 				cerr << "Downloading SEP failed, aborting.." << endl;
+				delete_file(desktop + "\\buildmanifest.plist");
 				system("pause");
 				exit(ERROR);
 			}
@@ -129,6 +131,8 @@ void version_control(const string& version) {
 			HRESULT res_bb = URLDownloadToFile(NULL, bb_dl, bb_destination, 0, NULL);
 			if (!SUCCEEDED(res_bb)) {
 				cerr << "Downloading baseband failed, aborting.." << endl;
+				delete_file(desktop + "\\buildmanifest.plist");
+				delete_file(desktop + "\\sep.im4p");
 				system("pause");
 				exit(ERROR);
 			}
@@ -140,7 +144,7 @@ void version_control(const string& version) {
 		version == "12.1.2" || version == "12.1.3" || version == "12.1.4" || version == "12.2" ||
 		version == "12.3" || version == "12.3.1" || version == "12.4" || version == "12.4.1" ||
 		version == "12.4.2" || version == "12.4.3" || version == "12.4.4" || version == "12.4.5" ||
-		version == "12.4.6" || version == "12.4.7")) {
+		version == "12.4.6" || version == "12.4.7" || version == "12.4.8")) {
 		cerr << "Invalid iOS version, aborting.." << endl;
 		system("pause");
 		exit(ERROR);
@@ -186,6 +190,7 @@ string get_firmware_link(const string& version) {
 	else if (version == "12.4.5")			return iOS_12_4_5;
 	else if (version == "12.4.6")			return iOS_12_4_6;
 	else if (version == "12.4.7")			return iOS_12_4_7;
+	else if (version == "12.4.8")			return iOS_12_4_8;
 	else if (version == "12.1.2") {
 		cout << "Which build number do you have SHSH for? 16C101 or 16C104: ";
 		string build_num;
