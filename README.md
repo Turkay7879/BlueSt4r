@@ -9,7 +9,7 @@ To find out what "futurerestore" is, check out s0uthwest's futurerestore project
   1. Actually restores an iDevice (Only iPhone6,2 ATM)
   2. Downloads futurerestore by itself (s0uthwest's fork is used in this project, v245)
   3. Downloads firmware file (a.k.a. IPSW) by itself (Only from Apple's own servers. IPSW files are definitely NOT, and WON'T be downloaded from other sources)
-  4. Supported iOS versions to restore:
+  4. Supported iOS versions to restore to:
       - iOS 10.2 - 10.3.3
       - iOS 11.3 - 11.4.1
       - iOS 12.0 - 12.1.4 (Warning: Fortnight bug, NOT recommended to restore to)
