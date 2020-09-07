@@ -3,7 +3,7 @@
 EasyRestore is a entry-level project to test my C++ skills by making a console program.
 The purpose of this console program is to make futurerestore process easier. 
 Although it's "technically" working, it still has to be improved in order to make it more usable.
-To find out what "futurerestore" is, check out s0uthwest's futurerestore project for purpose of EasyRestore (Huge thanks to him and may his soul rest in peace).
+To find out what "futurerestore" is, check out s0uthwes' futurerestore project for purpose of EasyRestore (Huge thanks to him and may his soul rest in peace).
 
 # Current abilities of EasyRestore:
   1. Actually restores an iDevice (Only iPhone6,2 ATM)
@@ -30,6 +30,6 @@ To find out what "futurerestore" is, check out s0uthwest's futurerestore project
   - Keep in mind that EasyRestore is only to make futurerestore easier, so you still need to set your generator on your iDevice beforehand (Which means that you probably need to be jailbroken or be on an iOS version that has a nonce setter)
  
 # Thanks to:
-  - s0uthwest
+  - s0uthwes
   
 Made by wooozie69  
